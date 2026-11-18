@@ -2,55 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCourseRequest;
-use App\Http\Requests\UpdateCourseRequest;
-use App\Models\Course;
-
-class CourseController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
-        $courses = Course::latest()->get();
+        $siteName = 'KursusKu';
 
-        return view('courses.index', compact('courses'));
-    }
+        $featured = [
+            [
+                'code' => 'WEB-01',
+                'title' => 'Web Dasar',
+                'description' => 'Belajar dasar pengembangan web.',
+            ],
+            [
+                'code' => 'PHP-01',
+                'title' => 'PHP Dasar',
+                'description' => 'Mengenal pemrograman PHP.',
+            ],
+            [
+                'code' => 'LAR-01',
+                'title' => 'Laravel Fundamental',
+                'description' => 'Mengenal framework Laravel.',
+            ],
 
-    public function create()
-    {
-        return view('courses.create');
-    }
+            [
+    'code' => 'UI-01',
+    'title' => 'UI Web Dasar',
+    'description' => 'Belajar prinsip tampilan web yang rapi.',
+],
+        ];
 
-    public function store(StoreCourseRequest $request)
-    {
-        Course::create($request->validated());
-
-        return to_route('courses.index')
-            ->with('success', 'Kursus berhasil ditambahkan.');
-    }
-
-    public function show(Course $course)
-    {
-        return view('courses.show', compact('course'));
-    }
-
-    public function edit(Course $course)
-    {
-        return view('courses.edit', compact('course'));
-    }
-
-    public function update(UpdateCourseRequest $request, Course $course)
-    {
-        $course->update($request->validated());
-
-        return to_route('courses.show', $course)
-            ->with('success', 'Kursus berhasil diperbarui.');
-    }
-
-    public function destroy(Course $course)
-    {
-        $course->delete();
-
-        return to_route('courses.index')
-            ->with('success', 'Kursus berhasil dihapus.');
+        return view('home', compact('siteName', 'featured'));
     }
 }
